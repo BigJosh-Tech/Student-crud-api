@@ -47,3 +47,25 @@ This project implements a REST API for managing student records.
 
 7. Logging
     Logs are automatically generated for every API action:
+
+# REST API with Flask and Docker
+
+This is a Flask-based REST API for managing students, which is containerized using Docker.
+
+## Prerequisites
+- Docker
+- Make (optional, but recommended)
+
+## Setup Instructions
+
+### Build Docker Image
+Use the following command to build the Docker image for the Student CRUD API:
+```bash
+docker build -t student-crud-api:1.0.0 .
+
+Replace 1.0.0 with the desired semantic version for the image.
+
+Run the container using the following command:
+ docker run -d -p 5000:5000 --env-file .env student-crud-api:1.0.0 
+
+The API will be accessible at http://127.0.0.1:5000/api/v1/students

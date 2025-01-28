@@ -124,4 +124,5 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         seed_data()
-    app.run(debug=True)
+    # Bind the Flask app to 0.0.0.0 so it's accessible from outside the container
+    app.run(host='0.0.0.0', port=5000, debug=True)
