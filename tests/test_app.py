@@ -45,9 +45,7 @@ class TestStudentAPI(unittest.TestCase):
             student = Student(name="Charlie", age=22, grade="C")
             db.session.add(student)
             db.session.commit()
-
-        # Explicitly refresh the object
-        db.session.refresh(student)  # <- Add this line
+            db.session.refresh(student)  # Must be inside the context
 
         response = self.app.get(f"/api/v1/students/{student.id}")
         self.assertEqual(response.status_code, 200)
@@ -60,9 +58,7 @@ class TestStudentAPI(unittest.TestCase):
             student = Student(name="Diana", age=23, grade="D")
             db.session.add(student)
             db.session.commit()
-
-        # Explicitly refresh the object
-        db.session.refresh(student)  # <- Add this line
+            db.session.refresh(student)  # Must be inside the context
 
         response = self.app.put(
             f"/api/v1/students/{student.id}",
@@ -78,9 +74,7 @@ class TestStudentAPI(unittest.TestCase):
             student = Student(name="Eve", age=24, grade="E")
             db.session.add(student)
             db.session.commit()
-
-        # Explicitly refresh the object
-        db.session.refresh(student)  # <- Add this line
+            db.session.refresh(student)  # Must be inside the context
 
         response = self.app.delete(f"/api/v1/students/{student.id}")
         self.assertEqual(response.status_code, 200)
