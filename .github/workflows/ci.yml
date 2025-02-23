@@ -1,0 +1,69 @@
+name: Student API CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - "Dockerfile"
+      - "requirements.txt"
+      - "Makefile"
+      
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build-api:
+    runs-on: self-hosted # Uses a self-hosted GitHub runner
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: make install
+
+  run-tests:
+    runs-on: self-hosted
+    needs: build-api
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        run: make test
+
+  lint-code:
+    runs-on: self-hosted
+    needs: build-api
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Code Linting
+        run: make lint
+
+  docker-login:
+    runs-on: self-hosted
+    needs: [run-tests, lint-code]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+  docker-build-push:
+    runs-on: self-hosted
+    needs: docker-login
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build and Push Docker Image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: make docker-push

@@ -10,18 +10,31 @@ upgrade:
 test:
 	pytest
 
-# Define variables
-IMAGE_NAME = student-crud-api
-TAG = 1.0.0
-DB_URL ?= sqlite:///students.db
+# Variables
+VERSION=1.0.0
+IMAGE_NAME=student-crud-api
+DOCKER_USER=mydockerhubuser
+DOCKER_REPO=mydockerhubrepo
 
-.PHONY: build run stop
+.PHONY: install test lint build docker-login docker-build docker-push
+
+install:
+	pip install -r requirements.txt
+
+test:
+	pytest tests/
+
+lint:
+	flake8 app/
 
 build:
-	docker build -t student-crud-api:1.0.0 .
+	docker build -t $(IMAGE_NAME):$(VERSION) .
 
-run:
-	docker run -d -p 5000:5000 --env-file .env student-crud-api:1.0.0 
+docker-login:
+	echo "$(DOCKER_PASSWORD)" | docker login -u "$(DOCKER_USERNAME)" --password-stdin
 
-stop:
-	@docker ps | grep $(IMAGE_NAME):$(VERSION) | awk '{print $$1}' | xargs docker stop
+docker-build:
+	docker build -t $(DOCKER_USER)/$(DOCKER_REPO):$(VERSION) .
+
+docker-push: docker-build
+	docker push $(DOCKER_USER)/$(DOCKER_REPO):$(VERSION)
