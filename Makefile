@@ -22,10 +22,10 @@ install:
 	pip install -r requirements.txt
 
 test:
-	pytest tests/
+	python -m pytest tests/
 
 lint:
-	flake8 app/
+	python -m flake8 .
 
 build:
 	docker build -t $(IMAGE_NAME):$(VERSION) .
