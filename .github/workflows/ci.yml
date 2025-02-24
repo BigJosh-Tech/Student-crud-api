@@ -23,7 +23,11 @@ jobs:
           python-version: "3.9"
 
       - name: Install Dependencies
-        run: make install
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
   run-tests:
     runs-on: self-hosted
@@ -32,8 +36,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Run Tests
-        run: make test
+        run: |
+          source venv/bin/activate
+          make test
 
   lint-code:
     runs-on: self-hosted
@@ -42,8 +60,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Run Code Linting
-        run: make lint
+        run: |
+          source venv/bin/activate
+          make lint
 
   docker-login:
     runs-on: self-hosted
@@ -66,4 +98,6 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: make docker-push
+        run: |
+          source venv/bin/activate
+          make docker-push

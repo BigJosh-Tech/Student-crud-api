@@ -1,4 +1,6 @@
 flask
-flask-sqlalchemy
-flask-migrate
+pytest
+flake8
+flask_sqlalchemy
+flask_migrate
 python-dotenv
