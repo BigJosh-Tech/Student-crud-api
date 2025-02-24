@@ -25,7 +25,7 @@ test:
 	python -m pytest tests/
 
 lint:
-	python -m flake8 .
+	python -m flake8 --exclude=venv . 
 
 build:
 	docker build -t $(IMAGE_NAME):$(VERSION) .
