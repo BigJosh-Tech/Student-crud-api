@@ -83,8 +83,8 @@ def create_student():
             )
 
         student = Student(
-            name=data["name"], 
-            age=data["age"], 
+            name=data["name"],
+            age=data["age"],
             grade=data["grade"]
         )
 
