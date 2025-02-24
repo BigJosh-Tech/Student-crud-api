@@ -71,15 +71,22 @@ def create_student():
             return jsonify({"error": "No JSON data provided"}), 400
 
         required_fields = ["name", "age", "grade"]
-        missing_fields = [field for field in required_fields if field not in data]
+        missing_fields = [
+            field for field in required_fields if field not in data
+        ]
         if missing_fields:
             logging.error(f"Missing fields: {missing_fields}")
             return (
-                jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}),
-                400,
+                jsonify({
+                    "error": f"Missing fields: {', '.join(missing_fields)}"
+                }),
             )
 
-        student = Student(name=data["name"], age=data["age"], grade=data["grade"])
+        student = Student(
+            name=data["name"], 
+            age=data["age"], 
+            grade=data["grade"]
+        )
 
         try:
             db.session.add(student)

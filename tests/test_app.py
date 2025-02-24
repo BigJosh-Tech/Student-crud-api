@@ -78,7 +78,9 @@ class TestStudentAPI(unittest.TestCase):
 
         response = self.app.delete(f"/api/v1/students/{student.id}")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json, {"message": "Student deleted successfully"})
+        self.assertEqual(
+            response.json, {"message": "Student deleted successfully"}
+        )
 
         # Verify student is no longer in the database
         response = self.app.get(f"/api/v1/students/{student.id}")
