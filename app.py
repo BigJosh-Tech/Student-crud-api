@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+print(os.getenv("DATABASE_URL"))  # Should now print 'sqlite:///students.db'
+
 # Configurations
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
