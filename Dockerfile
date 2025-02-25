@@ -1,15 +1,15 @@
 # Stage 1: Build Stage
-FROM python:3.9-slim AS build
+FROM --platform=linux/amd64 python:3.9-slim AS build
 
 # Set working directory
 WORKDIR /app
 
 # Copy and install dependencies
-COPY requirements.txt .
+COPY requirements.txt . 
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime Stage
-FROM python:3.9-slim
+FROM --platform=linux/amd64 python:3.9-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -32,5 +32,5 @@ COPY . .
 # Expose application port
 EXPOSE 5000
 
-# Set entrypoint to run the API
-ENTRYPOINT ["python", "app.py"]
+# Set default command to run the API
+CMD ["python", "app.py"]
