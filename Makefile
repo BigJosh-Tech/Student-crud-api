@@ -37,4 +37,4 @@ docker-build:
 	docker build -t $(DOCKER_USER)/$(DOCKER_REPO):$(VERSION) .
 
 docker-push: docker-build
-	docker push $(DOCKER_USER)/$(DOCKER_REPO):$(VERSION)
+	docker push bigjosh03/mydockerhubrepo:1.0.0

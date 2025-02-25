@@ -105,25 +105,11 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
-      # Debug Docker Info
-      - name: Debug Docker Info
+      - name: Build and Push Docker Image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker --version
-          docker info
-
-      # Debug Docker Login
-      - name: Debug Docker Login
-        run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker info
-
-      # Debug Docker Build
-      - name: Debug Docker Build
-        run: |
-          docker build -t mydockerhubuser/mydockerhubrepo:1.0.0 .
-          docker images
-
-      # Debug Docker Push
-      - name: Debug Docker Push
-        run: |
-          docker push mydockerhubuser/mydockerhubrepo:1.0.0 || docker logout
+          source venv/bin/activate
+          make docker-push
+  
