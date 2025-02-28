@@ -1,8 +1,5 @@
-# Use a build argument for platform specification
-ARG TARGETPLATFORM
-
 # Stage 1: Build Stage
-FROM --platform=${TARGETPLATFORM} python:3.9-slim AS build
+FROM python:3.9-slim AS build
 
 # Set working directory
 WORKDIR /app
@@ -12,7 +9,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime Stage
-FROM --platform=${TARGETPLATFORM} python:3.9-slim
+FROM python:3.9-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
