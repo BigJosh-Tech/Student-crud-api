@@ -1,71 +1,126 @@
-# Student CRUD API
+🎓 Student CRUD REST API
+A simple RESTful API to manage students, built with Python (Flask) and deployed using Docker, NGINX, and Vagrant for local production-like setup.
 
-This project implements a REST API for managing student records.
+🔧 Features
+Full CRUD support for student records
 
-## Features
-- API versioning (`/api/v1/<resource>`)
-- CRUD operations for students
-- Logs meaningful messages with appropriate log levels
-- Supports health check at `/api/v1/healthcheck`
+PostgreSQL database
 
-## Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/BigJosh-Tech/Student-crud-api.git
-   cd student-crud-api
+REST API versioning (/api/v1/)
 
-2. Create a virtual environment and install dependencies:
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+Load-balanced API using NGINX
 
-3. Set up environment variables: Create a .env file with:
-    DATABASE_URL=sqlite:///students.db
+Configurable with environment variables
 
-4. Run the application:
-    python app.py
-    The API will be available at: http://127.0.0.1:5000/api/v1/students
-    
-5. Testing the API with Postman
-    Import Postman Collection
-    Open Postman.
-    Click Import and upload the api.postman_collection.json file from the project.
+Unit testing and linting support
 
-6. Test API Endpoints
-- Healthcheck:
-    Use the GET /api/v1/healthcheck request to verify the API is running.
-- Get All Students:
-    Use the GET /api/v1/students request to view all student records.
-- Get a Single Student:
-    Use the GET /api/v1/students/<id> request, replacing <id> with a student’s ID (e.g., 1).
-- Create a Student:
-    Use the POST /api/v1/students request and provide a JSON body.
-- Update a Student:
-    Use the PUT /api/v1/students/<id> request, replacing <id> with the student ID, and provide updated data in the JSON body.
-- Delete a Student:
-    Use the DELETE /api/v1/students/<id> request to remove a student by ID.
+Postman collection for API testing
 
-7. Logging
-    Logs are automatically generated for every API action:
+CI/CD pipeline with Docker image build and push
 
-# REST API with Flask and Docker
+📁 Project Structure
+.
+├── app/                  # Flask application
+├── nginx/                # NGINX configuration
+├── tests/                # Unit tests
+├── Dockerfile            # Multi-stage API build
+├── docker-compose.yml    # Compose services
+├── Makefile              # Project commands
+├── Vagrantfile           # VM config for local prod
+├── provision.sh          # VM setup script
+└── README.md
 
-This is a Flask-based REST API for managing students, which is containerized using Docker.
+🚀 Local Development
+▶️ Prerequisites
+Python 3.9+
 
-## Prerequisites
-- Docker
-- Make (optional, but recommended)
+Docker + Docker Compose
 
-## Setup Instructions
+Vagrant + VirtualBox
 
-### Build Docker Image
-Use the following command to build the Docker image for the Student CRUD API:
-```bash
-docker build -t student-crud-api:1.0.0 .
+Postman (for testing)
 
-Replace 1.0.0 with the desired semantic version for the image.
+🐳 Docker Setup (Without Vagrant)
+# Build and start containers
+make build
+make up
 
-Run the container using the following command:
- docker run -d -p 5000:5000 --env-file .env student-crud-api:1.0.0 
+# Stop services
+make down
 
-The API will be accessible at http://127.0.0.1:5000/api/v1/students
+🖥️ Vagrant Production-Like Environment
+This sets up a VM and runs the API in Docker containers inside it.
+
+✅ Steps
+# Start Vagrant box and deploy services
+vagrant up
+
+# SSH into the VM if needed
+vagrant ssh
+
+# The API will be accessible via:
+http://localhost:8080/api/v1/healthcheck
+🔁 API Load Balancing
+Two API containers: api1, api2
+
+Managed by NGINX via nginx/nginx.conf
+
+Load balanced via round-robin strategy
+
+Access via: http://localhost:8080/api/v1/students
+
+📫 Using Postman
+Use the provided Postman collection to:
+
+✅ GET all students
+
+✅ POST a new student
+
+✅ PUT update student details
+
+✅ DELETE a student
+
+✅ /healthcheck endpoint
+
+🧪 Run Tests
+make test
+
+✅ Lint the Code
+make lint
+
+🐋 Docker Image Tags
+Images are tagged using semantic versioning
+
+Avoids use of latest tag
+
+🔐 Environment Variables
+Environment variables like DATABASE_URL are passed dynamically.
+
+To override:
+
+docker run --env DATABASE_URL=... ...
+⚙️ CI/CD Workflow
+A GitHub Actions pipeline handles:
+
+Build
+
+Test
+
+Lint
+
+Docker build & push
+
+Only runs on changes to app/, Dockerfile, or Makefile, and can be manually triggered.
+
+👷‍♂️ Self-Hosted Runner Setup
+Install GitHub self-hosted runner on your local machine to use the pipeline efficiently.
+
+📦 Docker Registry (Optional)
+Make sure to configure the following GitHub Secrets:
+
+DOCKER_USERNAME
+
+DOCKER_PASSWORD
+
+👏 Contributors
+Built by [Your Name] — Powered by Python, Flask, Docker, and Vagrant 🚀
