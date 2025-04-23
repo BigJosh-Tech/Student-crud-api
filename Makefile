@@ -1,22 +1,3 @@
-.PHONY: build up down restart logs
-
-build:
-	docker-compose build
-
-up:
-	docker-compose up -d
-
-down:
-	docker-compose down
-
-restart: down up
-
-logs:
-	docker-compose logs -f
-
-ps:
-	docker-compose ps
-
 # Variables
 VERSION=1.0.0
 IMAGE_NAME=student-crud-api
