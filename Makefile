@@ -1,3 +1,15 @@
+up:
+	docker-compose up --build -d
+
+down:
+	docker-compose down
+
+logs:
+	docker-compose logs -f
+
+restart:
+	docker-compose down && docker-compose up --build -d
+
 # Variables
 VERSION=1.0.0
 IMAGE_NAME=student-crud-api
